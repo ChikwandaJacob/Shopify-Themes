@@ -10,7 +10,23 @@
   {% unless blog.articles_count == 0 %}
     <ul class="grid grid--uniform grid--blog">
       {% for article in blog.articles limit: section.settings.post_limit %}
+
+      {%- comment -%}
+        IF post_limit = 1
+          set class to -> medium-up--one-whole
+        ELSIF post_limit = 2
+          set class to -> medium-up--one-half
+        ELSE
+          set class to -> medium-up--one-third
+      {%- endcomment -%}
+
+      {% if section.settings.post_limit == 1 %}
+        <li class="grid__item medium-up--one-whole">
+      {% elsif section.settings.post_limit == 2 %}
+        <li class="grid__item medium-up--one-half">
+      {% else %}
         <li class="grid__item medium-up--one-third">
+      {% endif %}
           <article aria-labelledby="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
             <header>
               <a href="{{ article.url }}" class="article__link">
@@ -267,9 +283,9 @@
         "zh-CN": "文章",
         "zh-TW": "貼文"
       },
-      "min": 3,
+      "min": 1,
       "max": 12,
-      "step": 3,
+      "step": 1,
       "default": 3
     },
     {
